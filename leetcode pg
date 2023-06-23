@@ -1,0 +1,58 @@
+1026. Maximum Difference Between Node and Ancestor
+
+
+class Solution {
+     int totalmax=Integer.MIN_VALUE;
+    public int maxAncestorDiff(TreeNode root) {
+     maxAncestor(root);
+     return totalmax;
+    }
+    public  Pair  maxAncestor(TreeNode root) 
+    {
+        if(root == null)
+        {
+            return new Pair(Integer.MAX_VALUE,Integer.MIN_VALUE);
+        }
+        if(root.left == null && root.right == null)
+        {
+             return new Pair(root.val,root.val);
+        }
+        Pair lst =  maxAncestor(root.left);
+        Pair rst =  maxAncestor(root.right);
+        int min = Math.min(lst.first,rst.first);
+         int max = Math.max(lst.second,rst.second);
+         int L =(root.val-min);
+         if(L<0)
+         {
+             L =L*-1;
+         }
+           int R = (root.val-max);
+            if(R<0)
+         {
+             R =R*-1;
+         }
+           if(totalmax < L)
+           {
+               totalmax = L;
+           }
+           if(totalmax < R)
+           {
+               totalmax = R;
+           }
+       if(root.val > max) 
+       max = root.val;
+         if(root.val < min) 
+       min = root.val;
+
+       return (new Pair(min,max));
+    }
+}
+class Pair{
+    int first;
+    int second;
+    Pair(int first,int second)
+    {
+        this.first=first;
+        this.second=second;
+    }
+}
