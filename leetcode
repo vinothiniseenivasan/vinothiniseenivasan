@@ -1,0 +1,81 @@
+class Solution {
+  
+    ArrayList<TreeNode> list = new ArrayList<>();
+    public TreeNode lcaDeepestLeaves(TreeNode root) 
+    {
+        if(root == null)
+        {
+            return null;
+        }
+        if(root.left == null && root.right == null)
+        {
+            return root;
+        }
+
+        int depth =  maxDepth( root);
+       //  System.out.println(depth);
+         TreeNode ans = null;
+         findnodes(root,depth-1,0);
+         if(list.size() == 1)
+         {
+             return list.get(0);
+         }
+     
+       else
+       {
+           TreeNode p = list.get(0);
+         TreeNode q = list.get(list.size()-1);
+          ans =findCommonAncestor(root, p, q);
+       }
+        return ans;
+    
+    }
+     public int maxDepth(TreeNode root) {
+      
+          if(root == null)
+          {
+         
+               return 0;
+          }
+         
+       return 1+Math.max(maxDepth( root.left), maxDepth( root.right));
+     
+      }
+        public void findnodes(TreeNode root,int depth,int count)
+        {
+             if(root == null)
+         {
+             return;
+         }
+         if(count == depth)
+         {
+              System.out.println(root.val);
+             list.add(root);
+         }
+        findnodes(root.left,depth,count+1);
+        findnodes(root.right,depth,count+1);
+        
+        }
+        public TreeNode findCommonAncestor(TreeNode root,TreeNode p,TreeNode q)
+    {
+        if(root == null)
+        {
+            return null;
+        }
+        if(root == p || root == q)
+        {
+            return root;
+        }
+       TreeNode lst =  findCommonAncestor(root.left,p,q);
+       TreeNode rst =  findCommonAncestor(root.right,p,q);
+         if(lst == null)
+         {
+             return rst;
+         }
+         if(rst == null)
+         {
+             return lst;
+         }
+         return root;
+    }
+}
