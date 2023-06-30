@@ -1,0 +1,72 @@
+Find a pair with given target in BST
+
+
+
+
+class Solution
+{
+    // root : the root Node of the given BST
+    // target : the target sum
+    public int isPairPresent(Node root, int target)
+    {
+        // Write your code here
+        Stack<Node> s1= new Stack<>();
+         Stack<Node> s2= new Stack<>();
+         Node n = root;
+         while(n != null)
+         {
+             s1.push(n);
+             n=n.left;
+         }
+          n = root;
+         while(n != null)
+         {
+             s2.push(n);
+             n=n.right;
+         }
+         while(s1.peek() != s2.peek())
+         {
+             int x = s1.peek().data;
+             int y = s2.peek().data;
+             if(x+y == target)
+             {
+                 return 1;
+             }
+             else if(x+y < target)
+             {
+                 moveLeft(s1);
+             }
+             else
+             {
+                 moveRight(s2);
+             }
+             
+         }
+         return 0;
+        
+    }
+    public void  moveLeft( Stack<Node> s)
+    {
+        Node temp = s.peek();
+        s.pop();
+        temp = temp.right;
+        while(temp != null)
+        {
+            s.push(temp);
+            temp =temp.left;
+        }
+      
+    }
+    public void  moveRight( Stack<Node> s)
+    {
+        Node temp = s.peek();
+        s.pop();
+        temp = temp.left;
+        while(temp != null)
+        {
+            s.push(temp);
+            temp =temp.right;
+        }
+      
+    }
+}
