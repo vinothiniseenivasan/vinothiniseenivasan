@@ -1,51 +1,54 @@
 Find a pair with given target in BST
 
 
-
-
 class Solution
 {
-    // root : the root Node of the given BST
-    // target : the target sum
-    public int isPairPresent(Node root, int target)
+    //Function to find the nodes that are common in both BST.
+	public static ArrayList<Integer> findCommon(Node root1,Node root2)
     {
-        // Write your code here
-        Stack<Node> s1= new Stack<>();
-         Stack<Node> s2= new Stack<>();
-         Node n = root;
-         while(n != null)
-         {
-             s1.push(n);
-             n=n.left;
-         }
-          n = root;
-         while(n != null)
-         {
-             s2.push(n);
-             n=n.right;
-         }
-         while(s1.peek() != s2.peek())
-         {
-             int x = s1.peek().data;
-             int y = s2.peek().data;
-             if(x+y == target)
-             {
-                 return 1;
-             }
-             else if(x+y < target)
-             {
-                 moveLeft(s1);
-             }
-             else
-             {
-                 moveRight(s2);
-             }
-             
-         }
-         return 0;
+        //code here
+          ArrayList<Integer> list = new ArrayList<>();
+        if(root1 == null || root2 == null)
+        {
+            return list;
+        }
+      
+          Stack<Node> s1 = new Stack<>();
+          Node n = root1;
+          while(n != null)
+          {
+              s1.push(n);
+              n = n.left;
+          }
+           Stack<Node> s2 = new Stack<>();
+            n = root2;
+          while(n != null)
+          {
+              s2.push(n);
+              n = n.left;
+          }
+          while(!s1.isEmpty() && !s2.isEmpty())
+          {
+              if(s1.peek().data < s2.peek().data)
+              {
+                  moveLeft(s1);
+              }
+              else if(s1.peek().data > s2.peek().data)
+              {
+                  moveLeft(s2);
+              }
+              else
+              {
+                  list.add(s1.peek().data);
+                   moveLeft(s1);
+                   moveLeft(s2);
+              }
+          }
+          return list;
         
+    
     }
-    public void  moveLeft( Stack<Node> s)
+      public static void  moveLeft( Stack<Node> s)
     {
         Node temp = s.peek();
         s.pop();
@@ -57,16 +60,7 @@ class Solution
         }
       
     }
-    public void  moveRight( Stack<Node> s)
-    {
-        Node temp = s.peek();
-        s.pop();
-        temp = temp.left;
-        while(temp != null)
-        {
-            s.push(temp);
-            temp =temp.right;
-        }
-      
-    }
 }
+
+
+  
