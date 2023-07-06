@@ -1,0 +1,75 @@
+// RANGE QUERIES DECOMPOSITION
+
+
+
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args)
+	{
+	    Scanner sc = new Scanner(System.in);
+	    
+	    int n = sc.nextInt();
+	    int[] arr = new int[n];
+	    for(int i=0;i<n;i++)
+	     {
+	         arr[i] = sc.nextInt();
+	     }
+	    int len =(int) ( (n)/(Math.sqrt(n)) ); 
+	   
+	  	int size=0;
+	  	if(n%len == 0)
+	  	{
+	  	    size =(n/len);
+	  	}
+	  	else
+	  	{
+	  	     size =(n/len)+1;
+	  	}
+	     int[] ans = new int[size];
+	    int ind=0;
+	    for(int i=0;i<n;i=i+len)
+	    {
+	        int min = Integer.MAX_VALUE;
+	        int start =i;
+	        int j=i;
+	        
+	        while(j<n && j < (start+len) )
+	       
+	        {
+	           min = Math.min(min,arr[j++]);
+	          
+	        }
+	     
+	      if(ind < ans.length)	
+	        ans[ind++] = min;
+	        else
+	        break;
+	    }
+	  
+	      int q =sc.nextInt();
+	    for(int k=0;k<q;k++)
+	    {
+	    int l = sc.nextInt();
+	    int r = sc.nextInt();
+	    int i =  l;
+	     int min = Integer.MAX_VALUE;
+	    while(i<=r)
+	    {
+	      if(i%len == 0 && i+len-1 <= r)  
+	      {
+	          min = Math.min(min,ans[i/len]);
+	          i=i+len;
+	      }
+	      else
+	      {
+	           min = Math.min(min,arr[i]);
+	           i++;
+	      }
+	    }
+	    
+	      System.out.println(min);
+	    }
+	    
+	}
+}
