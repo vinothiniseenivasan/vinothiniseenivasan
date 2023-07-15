@@ -1,0 +1,106 @@
+Rotting Oranges
+
+
+
+class Solution {
+    int rowsize=0;
+    int colsize=0;
+    public int orangesRotting(int[][] mat)
+    {
+        int count=0;
+
+         Queue<Triplet> q= new LinkedList<>();
+         int n = mat.length;
+         int m =mat[0].length;
+         rowsize=n;
+         colsize=m; 
+         int[][] visited = new int[n][m];
+         
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(mat[i][j] == 2)
+                {
+                    visited[i][j]=2;
+                    q.offer(new Triplet(i,j,0));               
+                }
+            }
+        }
+       
+        while(!q.isEmpty())
+        {
+            Triplet x = q.poll();
+            int r = x.row;
+            int c=x.col;
+ if(isValid(r-1,c) && visited[r-1][c]== 0 && mat[r-1][c] == 1)
+            {
+                visited[r-1][c]=2;
+                 count=(x.distance+1);
+                 q.offer(new Triplet(r-1,c,x.distance+1));
+                
+            }
+if( isValid(r+1,c) && visited[r+1][c]== 0 && mat[r+1][c] == 1)
+            {
+                 count=(x.distance+1);
+               visited[r+1][c]=2;
+                 q.offer(new Triplet(r+1,c,x.distance+1));
+                
+            }
+ if( isValid(r,c-1) &&  visited[r][c-1]== 0&& mat[r][c-1] == 1)
+            {
+                count=(x.distance+1);
+                visited[r][c-1]=2;
+                 q.offer(new Triplet(r,c-1,x.distance+1));
+                
+            }
+if(isValid(r,c+1) && visited[r][c+1]==0 && mat[r][c+1] == 1)
+            {
+                 count=(x.distance+1);
+                 visited[r][c+1]=2;
+                 q.offer(new Triplet(r,c+1,x.distance+1));
+                
+            }
+           
+        }
+
+        if(!check(visited,mat))
+        {
+            return -1;
+        }
+
+        
+        return count;
+        
+    }
+     public boolean isValid( int r,int c)
+   {
+       return (r>=0 &&  r< rowsize && c>=0 && c < colsize);
+   }
+     public boolean check( int[][] visited,int[][] mat)
+     {
+         for(int i=0;i<rowsize;i++)
+        {
+            for(int j=0;j<colsize;j++)
+            {
+                if(visited[i][j] == 0 && mat[i][j] == 1)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+     }
+}
+class Triplet
+{
+    int row;
+    int col;
+    int distance;
+    Triplet( int row,int col,int distance)
+    {
+        this.row=row;
+        this.col=col;
+        this.distance=distance;
+    }
+}
