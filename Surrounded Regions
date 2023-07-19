@@ -1,0 +1,69 @@
+Surrounded Regions
+
+
+class Solution {
+    int row;
+    int col;
+    int[][] visited;
+    int[][] dir;
+    public void solve(char[][] board) 
+    {
+        row = board.length;
+         col =board[0].length;
+         visited=new int[row][col];
+           dir = new int[][]{{0,-1},{0,1},{-1,0},{1,0}};
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+            {
+                if(board[i][j] == 'O')
+                {
+                  if(i==0 || i ==row-1 | j==0 || j==col-1)
+                  {
+                       board[i][j] ='B';
+                      dfs(i,j,board);
+                  }
+                }
+            }
+        }
+        for(int i=0;i<row;i++)
+        {
+            for(int j=0;j<col;j++)
+            {
+              if(board[i][j] == 'B')
+                {  
+                    board[i][j] = 'O';
+                }
+                else  if(board[i][j] == 'O')
+                {
+                 board[i][j] = 'X';
+                }
+            }
+        }
+       
+        
+    }
+    public void dfs(int r,int c ,char[][] board)
+    {
+        if(visited[r][c] == 1)
+        return;
+
+        visited[r][c] =1;
+          for(int i=0;i<dir.length;i++)
+        {
+         int  a=dir[i][0]+r;
+         int  b=dir[i][1]+c;;
+   if(isValid(a,b) && visited[a][b] == 0 &&board[a][b] == 'O')
+   {
+       board[a][b] ='B';
+       dfs(a,b,board );
+   }
+
+ }
+        
+    }
+       public boolean isValid( int r,int c)
+   {
+       return (r>=0 &&  r< row && c>=0 && c < col);
+   }
+}
