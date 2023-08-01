@@ -1,0 +1,79 @@
+Find K Pairs with Smallest Sums
+
+
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+		
+PriorityQueue<Quad> pq = new PriorityQueue<>(new compare() );
+	     
+	      
+	        pq.offer(new Quad(0,0,nums1,nums2 ) );
+	      
+	         
+	    
+	   List<List<Integer>> res = new ArrayList<>();
+	   List<Integer> list = new ArrayList<>();
+	    int count =1;
+	   while(pq.size() > 0 && count<=k)
+	    {
+	Quad ans = (pq.peek());
+		int  c =ans.first;
+		int d =ans.second;
+		 list.add(nums1[c]);
+		 list.add(nums2[d]);
+		 
+		
+
+		 pq.poll();
+		    if(c+1 <  nums1.length )
+		    {
+		       
+		       pq.offer(new Quad(c+1,d,nums1,nums2) );
+		    }
+		    if(d+1 < nums2.length   )
+		    {
+		         pq.offer(new Quad(c,d+1,nums1,nums2) );
+		    }
+		 res.add(list);
+		 list = new ArrayList<>();
+		  count++;
+		  
+	    }
+	return (res);
+	   
+	}
+}
+
+class compare implements Comparator<Quad>
+{
+    public int compare(Quad a,Quad b)
+    {
+        int[] arr1 = a.third;
+        int[] arr2 = a.fourth;
+        
+        int f =arr1[a.first]+arr2[a.second] ;
+        int s =arr1[b.first]+arr2[b.second];
+       
+        if(f>s)
+        return 1;
+        else if(f<s)
+        {
+            return -1;
+        }
+        else
+        return 0;
+    }
+}
+class Quad{
+    int first;
+    int second;
+    int[] third;
+    int[] fourth;
+    Quad(int first, int second,int[] third,int[] fourth)
+    {
+        this.first=first;
+         this.second=second;
+         this.third=third;
+         this.fourth=fourth;
+    }
+}
